@@ -21,9 +21,9 @@ def checkPos(objs, amt):
         check_pos1 = (x + lib.check[0][i][0], y + lib.check[0][i][1], z + lib.check[0][i][2])
         check_pos2 = (x + lib.check[1][i][0], y + lib.check[1][i][1], z + lib.check[1][i][2])
 
-        if check_pos1 in lib.obj:
+        if any(obj[:3] == check_pos1 for obj in lib.obj):
             checked[0][i] = 1
-        if check_pos2 in lib.obj:
+        if any(obj[:3] == check_pos2 for obj in lib.obj):
             checked[1][i] = 1
 
     if checked[0] == [1, 1, 1] or checked[1] == [1, 1, 1]:

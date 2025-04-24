@@ -4,6 +4,7 @@ import keyboard
 import math
 import library as lib
 import render as rend
+import player as plr
 
 pygame.init()
 screen = pygame.display.set_mode((lib.screenW * lib.mult, lib.screenH * lib.mult))
@@ -28,36 +29,42 @@ def movement():
         lib.Cam[0] += move_delta
         lib.Cam[2] += move_delta
     
-    if keyboard.is_pressed('a'):
+    if keyboard.is_pressed('e'):
         lib.Cam[1] -= move_delta
-    if keyboard.is_pressed('s'):
+    if keyboard.is_pressed('q'):
         lib.Cam[1] += move_delta
 
-rend.createWorld()
+#rend.createWorld()
 
 running = True
 while running:
-    #print("Start")
-    screen.fill((0, 0, 0))
-
+    print("Start")
+    screen.fill((255, 0, 0))
+    lib.obj = [o for o in lib.obj if o[3] >= 0]
+    lib.obj.append(lib.Pos)
     movement()
+    plr.playerMove(keyboard)
     lib.obj.sort(key=lambda o: o[0] + o[1] + o[2], reverse=False)
     i = 0
     rendering = 0
     for objs in lib.obj:
-        if lib.Cam[1] - 4 < objs[1] < lib.Cam[1] + 4:
-            x, y = rend.convert3D_2D(objs)
-            x *= lib.mult
-            y *= lib.mult
-            
-            if (((-lib.size * lib.mult) < x < ((lib.screenW * lib.mult) + lib.size)) and ((-lib.size * lib.mult) < y < ((lib.screenH * lib.mult) + lib.size))):
-                if rend.checkPos(objs, i):
-                    xPixel, yPixel = rend.blockType(objs[3])
-                    tile_rect = pygame.Rect(xPixel, yPixel, lib.size, lib.size)
-                    tile_sprite = lib.block.subsurface(tile_rect)
-                    scaled_tile = pygame.transform.scale(tile_sprite, (lib.size * lib.mult, lib.size * lib.mult))
-                    screen.blit(scaled_tile, (x, y))
-                    #rendering += 1
+        if objs[3] != -1:
+            if lib.Cam[1] - 4 < objs[1] < lib.Cam[1] + 4:
+                x, y = rend.convert3D_2D(objs)
+                x *= lib.mult
+                y *= lib.mult
+                
+                if (((-lib.size * lib.mult) < x < ((lib.screenW * lib.mult) + lib.size)) and ((-lib.size * lib.mult) < y < ((lib.screenH * lib.mult) + lib.size))):
+                    if rend.checkPos(objs, i):
+                        xPixel, yPixel = rend.blockType(objs[3])
+                        tile_rect = pygame.Rect(xPixel, yPixel, lib.size, lib.size)
+                        tile_sprite = lib.block.subsurface(tile_rect)
+                        scaled_tile = pygame.transform.scale(tile_sprite, (lib.size * lib.mult, lib.size * lib.mult))
+                        screen.blit(scaled_tile, (x, y))
+
+                        #rendering += 1
+        else:
+            plr.playerRend(screen, pygame)
         #i += 1
     
     #print("Amt Rendered: ", rendering)
@@ -78,6 +85,6 @@ while running:
     pygame.display.flip()
     clock.tick(30)
 
-    #print("Finish")
+    print("Finish")
 
 pygame.quit()

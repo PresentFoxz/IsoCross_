@@ -1,7 +1,7 @@
 import pygame
 
-Cam = [5,12,5]
-Pos = [0,0,0]
+Cam = [0,2,0]
+Pos = [0,2,0,-1]
 obj = [
     [0,0,0,1], [0,1,0,1],
     [0,0,1,1], [1,0,0,1]
@@ -22,11 +22,26 @@ check = [
         [0,1,1]
     ]
 ]
+
+collisionCheck = [
+    # Bottom
+    [1,0,0],
+    [0,0,1],
+    [-1,0,0],
+    [0,0,-1],
+
+    # Top
+    [1,1,0],
+    [0,1,1],
+    [-1,1,0],
+    [0,1,-1]
+]
 mult = 4
 screenW = 128
 screenH = 128
 
 block = pygame.image.load("images/blocks.png")
+playerSprt = pygame.image.load("images/playerSprt.png")
 
 pygame.font.init()
 txtFont = pygame.font.SysFont('Arial', 10*mult)
