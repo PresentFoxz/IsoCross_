@@ -55,7 +55,7 @@ while running:
                 y *= lib.mult
                 
                 if (((-lib.size * lib.mult) < x < ((lib.screenW * lib.mult) + lib.size)) and ((-lib.size * lib.mult) < y < ((lib.screenH * lib.mult) + lib.size))):
-                    if rend.checkPos(objs, i):
+                    if rend.checkPos(objs):
                         xPixel, yPixel = rend.blockType(objs[3])
                         tile_rect = pygame.Rect(xPixel, yPixel, lib.size, lib.size)
                         tile_sprite = lib.block.subsurface(tile_rect)
@@ -64,6 +64,8 @@ while running:
 
                         #rendering += 1
         else:
+            for i in range(3):
+                plr.collision(i, screen, pygame)
             plr.playerRend(screen, pygame)
         #i += 1
     

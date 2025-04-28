@@ -10,7 +10,7 @@ def convert3D_2D(objs):
 
     return screen_x, screen_y
 
-def checkPos(objs, amt):
+def checkPos(objs):
     x, y, z, point = objs
     if point == 0:
         return False
@@ -52,3 +52,13 @@ def blockType(idx):
         return 0, 0
     if idx == 2:
         return 28, 0
+
+def outline(pos, screen, pygame):
+    x, y = convert3D_2D(pos)
+    x *= lib.mult
+    y *= lib.mult
+
+    tile_rect = pygame.Rect(56, 0, lib.size, lib.size)
+    tile_sprite = lib.block.subsurface(tile_rect)
+    scaled_tile = pygame.transform.scale(tile_sprite, (lib.size * lib.mult, lib.size * lib.mult))
+    screen.blit(scaled_tile, (x, y))
